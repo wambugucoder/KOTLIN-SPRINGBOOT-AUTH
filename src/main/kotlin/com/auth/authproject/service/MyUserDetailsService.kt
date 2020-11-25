@@ -14,15 +14,16 @@ import java.util.logging.Logger
  class MyUserDetailsService :UserDetailsService{
   lateinit var logger:Logger
 
+
     @Autowired
     lateinit var userRepo: UserRepo
 
     override fun loadUserByUsername(email: String) : UserDetails {
         if (userRepo.existsByEmail(email)){
             val newDetails= userRepo.findByEmail(email)
-
-            return MyUserPrincipal(newDetails)
             logger.info("$email Details have been captured and stored for authentication")
+            return MyUserPrincipal(newDetails)
+
         }
        else{
 

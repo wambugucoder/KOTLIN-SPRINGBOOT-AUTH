@@ -6,29 +6,30 @@ import javax.persistence.*
 @Table(name="user_table")
 open class User(
         @Column(nullable=false)
-        var username:String="",
+        open var username:String="",
 
         @Column(unique = true,nullable = false)
-        var email:String="",
+       open  var email:String="",
 
         @Column(nullable=false)
-        var password:String="",
+        open var password:String="",
 
         @Enumerated(value = EnumType.STRING)
-        var role:roles =roles.ROLE_USER,
+       open  var role:roles =roles.ROLE_USER,
 
-        var isEnabled:Boolean=true,
+        open var isEnabled:Boolean=true,
 
-        var isNotLocked:Boolean=true,
+       open  var isNotLocked:Boolean=true,
 
-        var isNotExpired:Boolean=true,
+        open var isNotExpired:Boolean=true,
 
         @Id @GeneratedValue(strategy = GenerationType.AUTO)
-        var id:Long=0
+        open var id:Long=0
 
         )
 {
        public constructor(user:User) :this(user.username,user.email, user.password){
+                id=user.id
                 username=user.username
                 password=user.password
                 email=user.email

@@ -34,6 +34,9 @@ class UserService {
 
         }
     }
+    fun fetchUserDetail(email:String): User {
+        return userRepo.findByEmail(email)
+    }
 
 
 
