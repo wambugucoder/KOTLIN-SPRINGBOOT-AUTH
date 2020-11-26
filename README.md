@@ -1,2 +1,2 @@
 # KOTLIN-SPRINGBOOT-AUTH
-Authenticating with springboot and Kotlin
+Authenticating with springboot and Kotlin.
