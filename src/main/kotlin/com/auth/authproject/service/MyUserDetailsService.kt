@@ -21,13 +21,10 @@ import java.util.logging.Logger
     override fun loadUserByUsername(email: String) : UserDetails {
         if (userRepo.existsByEmail(email)){
             val newDetails= userRepo.findByEmail(email)
-            logger.info("$email Details have been captured and stored for authentication")
             return MyUserPrincipal(newDetails)
-
         }
        else{
 
-            logger.warning("$email Doesn't Exists in Database")
             throw UsernameNotFoundException("The Email doesn't seem to exist")
        }
 

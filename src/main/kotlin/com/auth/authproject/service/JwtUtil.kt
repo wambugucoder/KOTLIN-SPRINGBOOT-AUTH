@@ -15,14 +15,14 @@ class JwtUtil {
     @Value("\${auth.security.key}")
      lateinit var securityKey:String
 
-     fun  extractUsername(token:String):String{
+     fun  extractEmail(token:String):String{
 
          return extractClaim(token,Claims::getSubject)
      }
     fun extractExpiration(token:String): Date{
         return extractClaim(token,Claims::getExpiration)
     }
-    fun <R> extractClaim(token: String, claimsResolver:Function<Claims,R>): R {
+    fun <T> extractClaim(token: String, claimsResolver:Function<Claims,T>): T {
         val claims = extractAllClaims(token)
         return claimsResolver.apply(claims)
     }
@@ -34,9 +34,9 @@ class JwtUtil {
         return extractExpiration(token).before(Date())
     }
      fun generateToken(userDetails: User):String{
-        var payload:Map<String,Any> = hashMapOf("username" to userDetails.username,
+        val payload:Map<String,Any> = hashMapOf("username" to userDetails.username,
         "authorities" to userDetails.role, "email" to userDetails.email, "id" to userDetails.id)
-         return createToken(payload,userDetails.username)
+         return createToken(payload,userDetails.email)
 
      }
     fun createToken(payload:Map<String,Any>,subject:String):String{
@@ -45,8 +45,8 @@ class JwtUtil {
                 .signWith(SignatureAlgorithm.HS256,securityKey).compact()
     }
     fun validateToken(token: String,userDetails:UserDetails):Boolean{
-        val userName= extractUsername(token);
-        return (userName == userDetails.username && !isTokenExpired(token))
+        val email= extractEmail(token)
+        return (email == userDetails.username && !isTokenExpired(token))
     }
 
 }

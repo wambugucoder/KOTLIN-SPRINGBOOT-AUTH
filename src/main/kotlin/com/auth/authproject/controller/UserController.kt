@@ -5,7 +5,6 @@ import com.auth.authproject.requests.SignUpRequest
 import com.auth.authproject.response.LoginResponse
 import com.auth.authproject.response.SignUpResponse
 import com.auth.authproject.service.JwtUtil
-import com.auth.authproject.service.MyUserDetailsService
 import com.auth.authproject.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -26,8 +25,7 @@ class UserController {
     lateinit var userService:UserService
     @Autowired
     lateinit var authenticationManager: AuthenticationManager
-    @Autowired
-    lateinit var userDetailsService: MyUserDetailsService
+
     @Autowired
     lateinit var jwtUtil: JwtUtil
 
@@ -52,7 +50,7 @@ class UserController {
             )
         }
         catch (e:BadCredentialsException){
-            throw Exception("Incorrect Email/Password",e)
+            return ResponseEntity.badRequest().body(LoginResponse(httpStatus = HttpStatus.FORBIDDEN,message = "Invalid UserName or Password",token = "Empty"))
 
         }
        val detailsOfThisUser=userService.fetchUserDetail(body.email)

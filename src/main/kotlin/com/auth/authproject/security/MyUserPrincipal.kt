@@ -8,12 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails
 class MyUserPrincipal(user:User) :UserDetails {
     private val newUser=user
 
-    fun  getId():Long{
-        return newUser.id
-    }
-    fun getEmail():String{
-        return newUser.email
-    }
+
     override fun getAuthorities(): List<SimpleGrantedAuthority> {
        return listOf(SimpleGrantedAuthority(newUser.role.toString()))
     }
@@ -24,7 +19,7 @@ class MyUserPrincipal(user:User) :UserDetails {
     }
 
     override fun getUsername(): String {
-        return newUser.username
+        return newUser.email
     }
 
     override fun isAccountNonExpired(): Boolean {
